@@ -12,4 +12,8 @@ class User < ApplicationRecord
     'Java Developer',
     'Angular Developer',
   ].freeze
+
+  def name
+    "#{first_name} #{last_name}".strip
+  end
 end
