@@ -12,4 +12,20 @@ class User < ApplicationRecord
     'Java Developer',
     'Angular Developer',
   ].freeze
+
+  def name
+    "#{first_name} #{last_name}".strip
+  end
+
+  def address
+    "#{city}, #{country}, #{zipcode}"
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["city", "country"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
 end
