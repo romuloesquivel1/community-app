@@ -19,9 +19,23 @@ class WorkExperiencesController < ApplicationController
         end
     end
 
-    def update; end
+    def update
+        respond_to do |format|
+            if @work_experience.update(work_experience_params)
+                format.turbo_stream { render turbo_stream: turbo_stream.replace("work_exeperience_item_#{@work_experience.id}", partial: 'work_experiences/work_experience', locals: { work_experience: @work_experience})}
+            else
+                format.turbo_stream { render turbo_stream: turbo_stream.replace('remote_modal', partial: 'shared/turbo_modal', locals: { form_partial: 'work_experiences/form', modal_title: 'Edit experiences'})}
+            end
+        end
 
-    def destroy; end
+    end
+
+    def destroy 
+        respond_to do |format|
+            @work_experience.destroy
+            format.turbo_stream { render turbo_stream: turbo_stream.remove("work_exeperience_item_#{@work_experience.id}")}
+        end
+    end
 
     private
 
