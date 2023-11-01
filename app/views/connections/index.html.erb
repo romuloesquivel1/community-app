@@ -11,11 +11,11 @@
                         <div class="col-lg-3">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title"><%= get_the_receiver(connection.connected_user_id).name %></h3>
+                                    <h3 class="card-title"><%= connection.requested.name %></h3>
                                 </div>
                                 <div class="card-body">
                                     <%= image_tag "dummy_user.jpg", class:"img-fluid mb-1" %>
-                                    <small class="text-muted"><%= get_the_receiver(connection.connected_user_id).profile_title %></small><br>
+                                    <small class="text-muted"><%= connection.requested.profile_title %></small><br>
                                     <div class="d-grid">
                                         <%= link_to connection.status.titleize, "javascript:void(0)", class: "btn btn-primary mt-2"%>
                                     </div>
@@ -39,11 +39,11 @@
                         <div class="col-lg-3">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title"><%= get_the_requester(connection.user_id).name %></h3>
+                                    <h3 class="card-title"><%= connection.received.name %></h3>
                                 </div>
                                 <div class="card-body">
                                     <%= image_tag "dummy_user.jpg", class:"img-fluid mb-1" %>
-                                    <small class="text-muted"><%= get_the_requester(connection.user_id).profile_title %></small><br>
+                                    <small class="text-muted"><%= connection.received.profile_title %></small><br>
                                     <% if connection.status == 'accepted' %>
                                         <div class="d-grid">
                                             <%= link_to connection.status.titleize, "javascript:void(0)", class: "btn btn-primary mt-2"%>
