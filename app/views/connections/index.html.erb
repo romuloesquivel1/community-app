@@ -9,15 +9,19 @@
                 <div class="row">
                     <% @requested_connections.each do |connection| %>
                         <div class="col-lg-3">
-                            <div class="card">
+                            <div class="card mt-3">
                                 <div class="card-header">
-                                    <h3 class="card-title"><%= connection.requested.name %></h3>
+                                    <%= link_to member_path(connection.requested), style:"text-decoration:none", class: "text-primary", target: "_blank" do %>
+                                        <h3 class="card-title"><%= connection.requested.name %></h3>
+                                    <% end %>
                                 </div>
                                 <div class="card-body">
-                                    <%= image_tag "dummy_user.jpg", class:"img-fluid mb-1" %>
-                                    <small class="text-muted"><%= connection.requested.profile_title %></small><br>
-                                    <div class="d-grid">
-                                        <%= link_to connection.status.titleize, "javascript:void(0)", class: "btn btn-primary mt-2"%>
+                                        <%= image_tag "dummy_user.jpg", class:"img-fluid mb-1" %>
+                                    <div style="min-height:100px;">
+                                        <small class="text-muted"><%= connection.requested.profile_title %></small><br>
+                                        <div class="d-grid">
+                                            <%= link_to connection.status.titleize, "javascript:void(0)", class: "btn btn-primary mt-2"%>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +43,9 @@
                         <div class="col-lg-3">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title"><%= connection.received.name %></h3>
+                                     <%= link_to member_path(connection.received), style:"text-decoration:none", class: "text-primary", target: "_blank" do %>
+                                        <h3 class="card-title"><%= connection.received.name %></h3>
+                                    <% end %>
                                 </div>
                                 <div class="card-body">
                                     <%= image_tag "dummy_user.jpg", class:"img-fluid mb-1" %>
