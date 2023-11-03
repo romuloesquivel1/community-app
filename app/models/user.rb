@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :work_experiences, dependent: :destroy
   has_many :connections, dependent: :destroy
 
+  validates :first_name, :last_name, :username, :profile_title, presence: true
+
   PROFILE_TITLE = [
     'Senior Ruby on Rails Developer',
     'Full Stack Ruby on Rails Developer',
@@ -21,6 +23,7 @@ class User < ApplicationRecord
   end
 
   def address
+    return nil if city.blank? && state.blank? && country.blank? && zipcode.blank?
     "#{city}, #{country}, #{zipcode}"
   end
 
