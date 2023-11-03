@@ -3,6 +3,7 @@ class MembersController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        @connections = Connection.where('user_id = ? OR connected_user_id = ?', params[:id], params[:id]).where(status: 'accepted')
     end
 
     def edit_description; end
@@ -23,6 +24,12 @@ class MembersController < ApplicationController
                 format.turbo_stream { render turbo_stream: turbo_stream.replace('member-personal-details', partial: 'members/member_personal_details', locals: { user: current_user }) }
             end
         end
+    end
+
+    def connections
+        @requested_connections = Connection.includes(:requested).where(user_id: params[:id], status: 'accepted')
+        @received_connections = Connection.includes(:received).where(connected_user_id: params[:id], status: 'accepted')
+        @total_connections = @requested_connections.count + @received_connections.count
     end
 
     private
