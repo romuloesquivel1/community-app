@@ -1,35 +1,46 @@
 class MembersController < ApplicationController
-    before_action :authenticate_user!, only: %i[edit_description update_description edit_personal_details update_personal_details]
-
+    
     def show
         @user = User.find(params[:id])
         @connections = Connection.where('user_id = ? OR connected_user_id = ?', params[:id], params[:id]).where(status: 'accepted')
+        @mutual_connections = current_user.mutually_connected_ids(@user)
     end
 
     def edit_description; end
 
     def update_description
-        respond_to do |format|
-            if current_user.update(about: params[:user][:about])
-                format.turbo_stream { render turbo_stream: turbo_stream.replace('member-description', partial: 'members/member_description', locals: { user: current_user }) }
-            end
+        if current_user.update(about: params[:user][:about])
+            render_turbo_stream(
+                'replace',
+                'member-description',
+                'members/member_description',
+                { user: current_user }
+            )
         end
     end
 
     def edit_personal_details; end
 
     def update_personal_details
-        respond_to do |format|
-            if current_user.update(user_personal_params)
-                format.turbo_stream { render turbo_stream: turbo_stream.replace('member-personal-details', partial: 'members/member_personal_details', locals: { user: current_user }) }
-            end
+        if current_user.update(user_personal_params)
+            render_turbo_stream(
+                'replace',
+                'member-personal-details',
+                'members/member_personal_details',
+                { user: current_user }
+            )
         end
     end
 
     def connections
-        @requested_connections = Connection.includes(:requested).where(user_id: params[:id], status: 'accepted')
-        @received_connections = Connection.includes(:received).where(connected_user_id: params[:id], status: 'accepted')
-        @total_connections = @requested_connections.count + @received_connections.count
+        @user = User.find(params[:id])
+        total_users = if params[:mutual_connections].present?
+                            User.where(id: mutually_connected_ids(@user))
+                            else
+                                User.where(id: @user.connected_user_ids)
+                            end
+        @connected_users = total_users.page(params[:page]).per(10)
+        @total_connections = total_users.count
     end
 
     private
