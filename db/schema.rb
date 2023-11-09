@@ -11,11 +11,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_11_06_193140) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "connections", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.integer "connected_user_id"
     t.string "status"
     t.datetime "created_at", null: false
@@ -48,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_193140) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "contact_number"
-    t.integer "connected_user_ids", default: [], array: true
+    t.integer "connected_user_ids"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
@@ -68,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_193140) do
     t.boolean "currently_working"
     t.text "description"
     t.string "company"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_work_experiences_on_user_id"

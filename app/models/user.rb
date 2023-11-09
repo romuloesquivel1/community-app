@@ -60,6 +60,6 @@ class User < ApplicationRecord
   end
 
   def mutually_connected_ids(user)
-    self.connected_user_ids.intersection(user.connected_user_ids)
+    self.connected_user_ids&.intersection(user.connected_user_ids)
   end
 end

@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ['name']
   
   connect() {
-    console.log('hello world')
+    console.log('user-name', this.element);
   }
 
   getUserName = () => {
